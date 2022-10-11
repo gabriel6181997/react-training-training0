@@ -1,20 +1,21 @@
 import React from "react";
 import * as ReactDOM from 'react-dom/client';
 import "./index.css"
+import { ISquareProps } from "./type";
 
-class Square extends React.Component {
+class Square extends React.Component<ISquareProps, {}> {
   render() {
     return (
       <button className="square">
-        {/* TODO */}
+        {this.props.value}
       </button>
     );
   }
 }
 
 class Board extends React.Component {
-  renderSquare(i: any) {
-    return <Square />;
+  renderSquare(i: number) {
+    return <Square value={i} />;
   }
 
   render() {
