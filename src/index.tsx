@@ -101,12 +101,17 @@ class Game extends React.Component<IGameProps, IGameState> {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step: any, move: any) => {
-      const desc = move
+      let desc = move
         ? "Go to move #" + move + "(" + step.col + "," + step.row + ")"
         : "Go to game start";
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button
+            onClick={() => this.jumpTo(move)}
+            className={this.state.stepNumber === move ? "bold" : ""}
+          >
+            {desc}
+          </button>
         </li>
       );
     });
