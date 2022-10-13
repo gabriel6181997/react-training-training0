@@ -1,7 +1,14 @@
 export interface ISquareProps {
-  value: number;
+  value: string | null;
+  onClick: () => void;
 }
 
 export interface ISquareState {
-  value: string | null;
+}
+
+export interface IBoardProps {
+}
+
+export interface IBoardState {
+  squares: Array<string | null>;
 }

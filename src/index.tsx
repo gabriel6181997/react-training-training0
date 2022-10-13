@@ -1,28 +1,39 @@
 import React from "react";
 import * as ReactDOM from "react-dom/client";
 import "./index.css";
-import { ISquareProps, ISquareState } from "./type";
+import { IBoardProps, IBoardState, ISquareProps, ISquareState } from "./type";
 
 class Square extends React.Component<ISquareProps, ISquareState> {
-  constructor(props: ISquareProps) {
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
-
   render() {
     return (
-      <button className="square" onClick={() => this.setState({ value: "X" })}>
-        {this.state.value}
+      <button className="square" onClick={() => this.props.onClick()}>
+        {this.props.value}
       </button>
     );
   }
 }
 
-class Board extends React.Component {
+class Board extends React.Component<IBoardProps, IBoardState> {
+  constructor(props: IBoardProps) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+    };
+  }
+
+  handleClick(i: number) {
+    const squares = this.state.squares.slice();
+    squares[i] = "X";
+    this.setState({ squares: squares });
+  }
+
   renderSquare(i: number) {
-    return <Square value={i} />;
+    return (
+      <Square
+        value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
 
   render() {
