@@ -100,7 +100,7 @@ class Game extends React.Component<IGameProps, IGameState> {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
-    const moves = history.map((step: any, move: any) => {
+    const moves = history.map((step, move) => {
       let desc = move
         ? "Go to move #" + move + "(" + step.col + "," + step.row + ")"
         : "Go to game start";
