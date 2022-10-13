@@ -91,7 +91,7 @@ class Game extends React.Component<IGameProps, IGameState> {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if (calculateWinner(squares).winner || squares[i]) {
+    if (calculateWinner(squares)?.winner || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? "X" : "O";
@@ -118,7 +118,7 @@ class Game extends React.Component<IGameProps, IGameState> {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const calcResult = calculateWinner(current.squares);
+    const settlement = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
       let desc = move
@@ -137,8 +137,12 @@ class Game extends React.Component<IGameProps, IGameState> {
     });
 
     let status;
-    if (calcResult.winner) {
-      status = "Winner: " + calcResult.winner;
+    if (settlement) {
+      if (settlement.isDraw) {
+        status = "Draw";
+      } else {
+        status = "Winner: " + settlement.winner;
+      }
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
@@ -149,7 +153,7 @@ class Game extends React.Component<IGameProps, IGameState> {
           <Board
             squares={current.squares}
             onClick={(i: number) => this.handleClick(i)}
-            winLine={calcResult.line}
+            winLine={settlement ? settlement.line : []}
           />
         </div>
         <div className="game-info">
@@ -188,11 +192,17 @@ function calculateWinner(squares: Squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return { winner: squares[a], line: [a, b, c] };
+      return { isDraw: false, winner: squares[a], line: [a, b, c] };
     }
   }
-  return {
-    winner: null,
-    line: null,
-  };
+
+  if (squares.filter((e) => !e).length === 0) {
+    return {
+      isDraw: true,
+      winner: null,
+      line: null,
+    };
+  }
+
+  return null;
 }
