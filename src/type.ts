@@ -20,6 +20,8 @@ export interface IGameProps {
 export interface IGameState {
   history: Array<{
     squares: Squares;
+    col: number;
+    row: number;
   }>;
   stepNumber: number;
   xIsNext: boolean;
