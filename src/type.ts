@@ -1,5 +1,5 @@
 export interface ISquareProps {
-  value: string | null;
+  value: Square;
   onClick: () => void;
 }
 
@@ -10,6 +10,10 @@ export interface IBoardProps {
 }
 
 export interface IBoardState {
-  squares: Array<string | null>;
+  squares: Array<Square>;
   xIsNext: boolean;
 }
+
+type Square = "X" | "O" | null;
+
+export type Squares = Array<Square>
