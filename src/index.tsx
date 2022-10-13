@@ -1,16 +1,14 @@
 import React from "react";
 import * as ReactDOM from "react-dom/client";
 import "./index.css";
-import { IBoardProps, IBoardState, ISquareProps, ISquareState } from "./type";
+import { IBoardProps, IBoardState, ISquareProps } from "./type";
 
-class Square extends React.Component<ISquareProps, ISquareState> {
-  render() {
-    return (
-      <button className="square" onClick={() => this.props.onClick()}>
-        {this.props.value}
-      </button>
-    );
-  }
+function Square(props: ISquareProps) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
 }
 
 class Board extends React.Component<IBoardProps, IBoardState> {
