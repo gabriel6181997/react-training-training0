@@ -7,10 +7,20 @@ export interface ISquareState {
 }
 
 export interface IBoardProps {
+  squares: Array<Square>;
+  onClick: (i: number) => void;
 }
 
 export interface IBoardState {
-  squares: Array<Square>;
+}
+
+export interface IGameProps {
+}
+
+export interface IGameState {
+  history: Array<{
+    squares: Squares;
+  }>;
   xIsNext: boolean;
 }
 
