@@ -1,5 +1,6 @@
 export interface ISquareProps {
   value: Square;
+  isHighlighted: boolean;
   onClick: () => void;
 }
 
@@ -8,6 +9,7 @@ export interface ISquareState {
 
 export interface IBoardProps {
   squares: Array<Square>;
+  winLine: Array<number> | null;
   onClick: (i: number) => void;
 }
 

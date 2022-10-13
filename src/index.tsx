@@ -11,17 +11,23 @@ import {
 } from "./type";
 
 function Square(props: ISquareProps) {
+  let className = "square";
+  if (props.isHighlighted) {
+    className += " highlight";
+  }
+
   return (
-    <button className="square" onClick={props.onClick}>
+    <button className={className} onClick={props.onClick}>
       {props.value}
     </button>
   );
 }
 
 class Board extends React.Component<IBoardProps, IBoardState> {
-  renderSquare(i: number) {
+  renderSquare(i: number, isHighlighted: boolean) {
     return (
       <Square
+        isHighlighted={isHighlighted}
         key={i}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
@@ -41,7 +47,14 @@ class Board extends React.Component<IBoardProps, IBoardState> {
                   .fill(0)
                   .map((col, j) => {
                     const index = i * 3 + j;
-                    return this.renderSquare(index);
+                    const highlight =
+                      this.props.winLine &&
+                      this.props.winLine.indexOf(index) !== -1;
+                    if (highlight) {
+                      return this.renderSquare(index, highlight);
+                    } else {
+                      return this.renderSquare(index, false);
+                    }
                   })}
               </div>
             );
@@ -78,7 +91,7 @@ class Game extends React.Component<IGameProps, IGameState> {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
+    if (calculateWinner(squares).winner || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? "X" : "O";
@@ -105,7 +118,7 @@ class Game extends React.Component<IGameProps, IGameState> {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winner = calculateWinner(current.squares);
+    const calcResult = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
       let desc = move
@@ -124,8 +137,8 @@ class Game extends React.Component<IGameProps, IGameState> {
     });
 
     let status;
-    if (winner) {
-      status = "Winner: " + winner;
+    if (calcResult.winner) {
+      status = "Winner: " + calcResult.winner;
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
@@ -136,6 +149,7 @@ class Game extends React.Component<IGameProps, IGameState> {
           <Board
             squares={current.squares}
             onClick={(i: number) => this.handleClick(i)}
+            winLine={calcResult.line}
           />
         </div>
         <div className="game-info">
@@ -174,8 +188,11 @@ function calculateWinner(squares: Squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { winner: squares[a], line: [a, b, c] };
     }
   }
-  return null;
+  return {
+    winner: null,
+    line: null,
+  };
 }
