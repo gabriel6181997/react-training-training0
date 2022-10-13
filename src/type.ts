@@ -21,6 +21,7 @@ export interface IGameState {
   history: Array<{
     squares: Squares;
   }>;
+  stepNumber: number;
   xIsNext: boolean;
 }
 
