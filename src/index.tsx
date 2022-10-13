@@ -141,9 +141,13 @@ class Game extends React.Component<IGameProps, IGameState> {
         <div className="game-info">
           <div>{status}</div>
           <div>
-            <button onClick={() => this.toggleAsc()}>ASC⇔DESC</button>
+            <button onClick={() => this.toggleAsc()}>
+              {this.state.isAsc
+                ? "Sort in descending order"
+                : "Sort in ascending order"}
+            </button>
           </div>
-          <ol>{this.state.isAsc ? moves: moves.reverse()}</ol>
+          <ol>{this.state.isAsc ? moves : moves.reverse()}</ol>
         </div>
       </div>
     );
