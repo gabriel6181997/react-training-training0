@@ -64,7 +64,14 @@ class Game extends React.Component<IGameProps, IGameState> {
       ],
       stepNumber: 0,
       xIsNext: true,
+      isAsc: true,
     };
+  }
+
+  toggleAsc() {
+    this.setState({
+      isAsc: !this.state.isAsc,
+    });
   }
 
   handleClick(i: number) {
@@ -133,7 +140,10 @@ class Game extends React.Component<IGameProps, IGameState> {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <div>
+            <button onClick={() => this.toggleAsc()}>ASC⇔DESC</button>
+          </div>
+          <ol>{this.state.isAsc ? moves: moves.reverse()}</ol>
         </div>
       </div>
     );

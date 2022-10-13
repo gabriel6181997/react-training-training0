@@ -25,6 +25,7 @@ export interface IGameState {
   }>;
   stepNumber: number;
   xIsNext: boolean;
+  isAsc: boolean,
 }
 
 type Square = "X" | "O" | null;
