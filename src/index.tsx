@@ -1,13 +1,20 @@
 import React from "react";
-import * as ReactDOM from 'react-dom/client';
-import "./index.css"
-import { ISquareProps } from "./type";
+import * as ReactDOM from "react-dom/client";
+import "./index.css";
+import { ISquareProps, ISquareState } from "./type";
 
-class Square extends React.Component<ISquareProps, {}> {
+class Square extends React.Component<ISquareProps, ISquareState> {
+  constructor(props: ISquareProps) {
+    super(props);
+    this.state = {
+      value: null,
+    };
+  }
+
   render() {
     return (
-      <button className="square">
-        {this.props.value}
+      <button className="square" onClick={() => this.setState({ value: "X" })}>
+        {this.state.value}
       </button>
     );
   }
@@ -19,7 +26,7 @@ class Board extends React.Component {
   }
 
   render() {
-    const status = 'Next player: X';
+    const status = "Next player: X";
 
     return (
       <div>
@@ -61,7 +68,7 @@ class Game extends React.Component {
 }
 
 // ========================================
-const rootElement = document.getElementById('root');
-if (!rootElement) throw new Error('Failed to find the root element');
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("Failed to find the root element");
 const root = ReactDOM.createRoot(rootElement);
 root.render(<Game />);
